@@ -6,6 +6,15 @@ body{
 .navbar{
     display: flex;
     margin: 10px;
+    align-items: center;
+    position: relative;
+}
+#popupMenu{
+    display: none;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 0px;
 }
 .menuItems{
     display: flex;
@@ -13,9 +22,16 @@ body{
     flex: auto;
     gap: 10px;
 }
+#closeMenu{
+    display: none;
+    width: 10px;
+    position:fixed;
+    right: 0;
+    top: 0;
+}
 .welcomeText{
     display: flex;
-    align-items: center;
+    align-items:center;
     justify-content: center;
     font-size: 2em;
     background-color: lightblue;
@@ -102,5 +118,44 @@ body{
     .bigBox:nth-last-child(-n+2){
         width: calc(50% - 20px);
         min-height:300px;
+    }
+}
+
+@media (max-width:600px){
+    #popupMenu{
+        display: block;
+    }
+    .menuItems{
+        display: none;
+        background-color:white;
+        position: fixed;
+        top:0;
+        right:0;
+        height:100%;
+        padding:20px;
+        z-index:9999;
+    }
+    #closeMenu{
+        display: block;
+    }
+    .mainContent{
+        width: 90%;
+    }
+    .smallBoxes{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .smallBox{
+        width: 100%;
+    }
+    .bigBoxes{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .bigBox{
+        width: 100%;
+    }
+    .bigBox:nth-last-child(-n+2){
+        width: 100%;
     }
 }
