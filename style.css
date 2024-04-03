@@ -9,10 +9,10 @@ body{
     align-items: center;
     position: relative;
 }
-#popupMenu{
+#popupMenuIcon{
     display: none;
-    width: 15px;
-    height: 15px;
+    width: 22.5px;
+    height: 22.5px;
     position: absolute;
     right: 0px;
 }
@@ -22,12 +22,13 @@ body{
     flex: auto;
     gap: 10px;
 }
-#closeMenu{
+#closeMenuIcon{
     display: none;
-    width: 10px;
+    width: 22.5px;
+    height: 22.5px;
     position:fixed;
-    right: 0;
-    top: 0;
+    right: 5px;
+    top: 5px;
 }
 .welcomeText{
     display: flex;
@@ -92,7 +93,13 @@ body{
     opacity: 0.6;
 }
 
-@media (max-width:1200px){
+@media (min-width: 600px) and (max-width: 1200px){
+    .menuItems{
+        display: flex;
+        justify-content: flex-end;
+        flex: auto;
+        gap: 10px;
+    }
     .mainContent{
         width: 90%;
     }
@@ -121,21 +128,26 @@ body{
     }
 }
 
-@media (max-width:600px){
-    #popupMenu{
+@media (min-width:360px) and (max-width:600px){
+    #popupMenuIcon{
         display: block;
     }
     .menuItems{
         display: none;
         background-color:white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
         position: fixed;
         top:0;
         right:0;
         height:100%;
-        padding:20px;
+        width: 50%;
         z-index:9999;
     }
-    #closeMenu{
+    .menuItems div{
+        margin: 30px;
+        text-align: center;
+    }
+    #closeMenuIcon{
         display: block;
     }
     .mainContent{
@@ -144,6 +156,7 @@ body{
     .smallBoxes{
         display: grid;
         grid-template-columns: 1fr;
+        height: auto;
     }
     .smallBox{
         width: 100%;

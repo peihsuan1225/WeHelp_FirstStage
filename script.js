@@ -1,3 +1,9 @@
-var menu=document.querySelector(".menuItems")
-var popupMenu=document.querySelector("#popupMenu")
-var closeMenu=document.querySelector("#closeMenu")
+var menu=document.querySelector(".menuItems");
+
+function popupMenu(){
+    menu.style.display = "block";
+}
+
+function closeMenu(){
+    menu.style.display = "none";
+}
