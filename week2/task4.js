@@ -1,3 +1,5 @@
+// task4 數列規律
+
 // There is a number sequence: 0, 4, 8, 7, 11, 15, 14, 18, 22, 21, 25, …
 // 規律為 +4 +4 -1
 
@@ -21,7 +23,7 @@ function getNumber(index){
     console.log(now);
 }
     
-    getNumber(1); // print 4
-    getNumber(5); // print 15
-    getNumber(10); // print 25
-    getNumber(30); // print 70
+getNumber(1); // print 4
+getNumber(5); // print 15
+getNumber(10); // print 25
+getNumber(30); // print 70

@@ -1,4 +1,4 @@
-# task1 給一些朋友的訊息跟現在所在捷運站，判斷出哪位朋友跟你離最近 
+# task1 給一些朋友的訊息跟你現在所在捷運站，判斷出哪位朋友跟你離最近 
 
 def find_and_print(messages, current_station):
     # 建立loc_dict字典，紀錄人名對應所在站點序號
@@ -25,10 +25,10 @@ def find_and_print(messages, current_station):
             # 如果給的站跟有人站都是小碧潭那距離為0
             if rightnow_loc == someone_loc: 
                 single_distance = 0
-            # 如果(所在站在Qizhang之前)或是(有人的站在Qizhang之前)，套用特殊公式
+            # 如果(所在站在Qizhang或之前)或是(有人的站在Qizhang或之前)，套用特殊公式
             elif rightnow_loc <= 17 or someone_loc <= 17 :
                 single_distance = abs(rightnow_loc - someone_loc) + 0.5
-            # 如果(所在站在Xindian City Hall之後)或是(有人的站在Xindian City Hall之後)，套用特殊公式
+            # 如果(所在站在Xindian City Hall或之後)或是(有人的站在Xindian City Hall或之後)，套用特殊公式
             elif rightnow_loc >= 18 or someone_loc >= 18 :  
                 single_distance = abs(rightnow_loc - someone_loc) + 1.5
         else:
@@ -45,10 +45,12 @@ def find_and_print(messages, current_station):
 
 
 # 建立綠線字典，由題目給的站名對應序號
-greenLine_dict={"Songshan":1,"Nanjing Sanmin":2,"Taipei Arena":3,"Nanjing Fuxing":4,"Songjiang NanJing":5,"Zhongshan":6,
+greenLine_dict={
+    "Songshan":1,"Nanjing Sanmin":2,"Taipei Arena":3,"Nanjing Fuxing":4,"Songjiang NanJing":5,"Zhongshan":6,
     "Beimen":7,"Ximen":8,"Xiaonanmen":9,"Chiang Kai-Shek Memorial Hall":10,"Guting":11,
     "Taipower Building":12,"Gongguan":13,"Wanlong":14,"Jingmei":15,"Dapinling":16,
-    "Qizhang":17, "Xiaobitan":17.5,"Xindian City Hall":18,"Xindian":19}
+    "Qizhang":17, "Xiaobitan":17.5,"Xindian City Hall":18,"Xindian":19
+}
 
 # 題目給的資訊(可能之後會有其他人的資訊以同樣的格式加入)
 messages={

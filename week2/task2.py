@@ -7,9 +7,10 @@ price_dict = {}
 # 建立一個已被預訂時間的字典，紀錄人名對應已預定時間
 ordered_time_dict = {} 
 
+import copy
 
 def book(consultants, hour, duration, criteria):
-    # 把已建立的字典引用進來函式(目的:讓外部字典的值不受函式內部的動作改變)
+    # 把已建立的字典引用進來函式
     thisbook_rate_dict = rate_dict
     thisbook_price_dict = price_dict
     # 建立booked代表是否已經完成預定判斷，預設值為"尚未完成"(已完成就不會再重複迴圈)
@@ -20,13 +21,13 @@ def book(consultants, hour, duration, criteria):
         the_person = None
         # 選擇標準為價錢
         if criteria == "price":
-            lowest_price = min((thisbook_price_dict.values()))  #找到最小的value(價格)
+            lowest_price = min((thisbook_price_dict.values()))  # 找到最小的value(價格)
             for key, value in thisbook_price_dict.items():
                 if value == lowest_price:  # 找對應最低價格的key(人名)
                     the_person = key
         # 選擇標準為評分
         elif criteria == "rate":
-            hightest_rate = max(thisbook_rate_dict.values()) #找到最大的value(評分)
+            hightest_rate = max(thisbook_rate_dict.values()) # 找到最大的value(評分)
             for key,value in thisbook_rate_dict.items():
                 if value == hightest_rate:   # 找對應最高評分的key(人名)
                     the_person = key

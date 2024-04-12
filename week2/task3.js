@@ -2,46 +2,46 @@
 
 function func(...data){
     // 建立一個所有 中間名 的 array
-    let middle_names_list = [];
+    let middleNamesList = [];
     // 建立一個所有 中間名:名字 的物件
-    let name_middlename_dict = {};
+    let nameMiddlenameDict = {};
 
-    // 用forEach 迴圈抓每一個名字跟中間名，放入 array 跟物件
+    // 用forEach 抓每一個名字跟中間名，放入 array 跟物件
     data.forEach(name =>{
         if (name.length <=3){       // 兩個字&三個字的名字
-            let middle_name = name[1];
-            middle_names_list.push(middle_name);
+            let middleName = name[1];
+            middleNamesList.push(middleName);
             let key = name[1];
             let value = name;
-            name_middlename_dict[key] = value;
+            nameMiddlenameDict[key] = value;
         } 
         else if(name.length <=5){    // 四個字&五個字的名字
-            let middle_name = name[2];
-            middle_names_list.push(middle_name);
+            let middleName = name[2];
+            middleNamesList.push(middleName);
             let key = name[2];
             let value = name;
-            name_middlename_dict[key] = value;
+            nameMiddlenameDict[key] = value;
         }
     });
-    // console.log(middle_names_list);   
-    // console.log(name_middlename_dict);
+    // console.log(middleNamesList);   
+    // console.log(nameMiddlenameDict);
 
     //建立一個存放 unique 中間名的 array
-    let unique_middle_names = [];   
-    // 用 forEach 迴圈把中間名拿出來計算，如果只有一次就放到 uniqueMiddleNames 的 array 裡   
-    middle_names_list.forEach(middle_name =>{
-        if(middle_names_list.filter(mid => mid === middle_name).length === 1){
-            unique_middle_names.push(middle_name);
+    let uniqueMiddleNames = [];   
+    // 用 forEach 把中間名拿出來計算，如果只有一次就放到 uniqueMiddleNames 的 array 裡   
+    middleNamesList.forEach(middleName =>{
+        if(middleNamesList.filter(mid => mid === middleName).length === 1){
+            uniqueMiddleNames.push(middleName);
         }
     });
 
     
-    if(unique_middle_names.length === 0){    //如果 uniqueMiddleNames 這個 array 沒有值
+    if(uniqueMiddleNames.length === 0){    //如果 uniqueMiddleNames 這個 array 沒有值
         console.log("沒有");
     }
     else{
-        unique_middle_names.forEach(middle_name =>{
-            console.log(name_middlename_dict[middle_name]);
+        uniqueMiddleNames.forEach(middleName =>{
+            console.log(nameMiddlenameDict[middleName]);
         });
     }
  }
