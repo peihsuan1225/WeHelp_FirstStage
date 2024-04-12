@@ -1,3 +1,5 @@
+# task2 預約顧問，給標準跟時間判斷哪個顧問可以被預約
+
 # 建立一個rate的字典，紀錄人名對應分數
 rate_dict = {} 
 # 建立一個price的字典，紀錄人名對應價格
@@ -5,28 +7,9 @@ price_dict = {}
 # 建立一個已被預訂時間的字典，紀錄人名對應已預定時間
 ordered_time_dict = {} 
 
-# 題目給的資訊(可能之後會有其他人的資訊以同樣的格式加入)
-consultants=[
-{"name":"John", "rate":4.5, "price":1000},
-{"name":"Bob", "rate":3, "price":1200},
-{"name":"Jenny", "rate":3.8, "price":800}
-]
-
-# 在consultants裡面抓取 name:rate 與 name:price 與name:[]，分別放進對應的字典中
-for single_info in consultants:
-    key = single_info["name"]
-    value_rate = single_info["rate"]
-    value_price = single_info["price"]
-    rate_dict[key] = value_rate    
-    price_dict[key] = value_price
-    ordered_time_dict[key] = []
-# print(rate_dict)
-# print(price_dict)
-# print(ordered_time_dict)
-
 
 def book(consultants, hour, duration, criteria):
-    # 事先動作，把已建立的字典引用進來函式(目的:讓外部字典的值不受函式內部的動作改變)
+    # 把已建立的字典引用進來函式(目的:讓外部字典的值不受函式內部的動作改變)
     thisbook_rate_dict = rate_dict
     thisbook_price_dict = price_dict
     # 建立booked代表是否已經完成預定判斷，預設值為"尚未完成"(已完成就不會再重複迴圈)
@@ -58,7 +41,7 @@ def book(consultants, hour, duration, criteria):
         # print(booktime_list)
         # 把當前選出來的人的已預定時間從dict中叫出來，用person_ordered裝起來
         person_ordered = ordered_time_dict[the_person]
-        
+        # print(person_ordered)
         # 建立overlap代表時間是否有重疊，預設值為"沒有重疊"
         overlap = False
         # 用for迴圈將這次要預定的時間跟選定顧問的已預定時間做比較
@@ -82,7 +65,27 @@ def book(consultants, hour, duration, criteria):
             ordered_time_dict[the_person].extend(booktime_list)
             print(the_person)
             booked = True
+    # print(ordered_time_dict)
 
+# 題目給的資訊(可能之後會有其他人的資訊以同樣的格式加入)
+consultants=[
+{"name":"John", "rate":4.5, "price":1000},
+{"name":"Bob", "rate":3, "price":1200},
+{"name":"Jenny", "rate":3.8, "price":800}
+]
+
+ # 在consultants裡面抓取 name:rate 與 name:price 與name:[]，分別放進對應的字典中
+for single_info in consultants:
+    key = single_info["name"]
+    value_rate = single_info["rate"]
+    value_price = single_info["price"]
+    rate_dict[key] = value_rate    
+    price_dict[key] = value_price
+    ordered_time_dict[key] = []
+
+    # print(rate_dict)
+    # print(price_dict)
+    # print(ordered_time_dict)
 
 book(consultants, 15, 1, "price") # Jenny
 book(consultants, 11, 2, "price") # Jenny

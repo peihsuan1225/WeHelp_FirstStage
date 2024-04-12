@@ -1,32 +1,18 @@
-# 建立綠線字典，由題目給的站名對應序號
-greenLine_dict={"Songshan":1,"Nanjing Sanmin":2,"Taipei Arena":3,"Nanjing Fuxing":4,"Songjiang NanJing":5,"Zhongshan":6,
-    "Beimen":7,"Ximen":8,"Xiaonanmen":9,"Chiang Kai-Shek Memorial Hall":10,"Guting":11,
-    "Taipower Building":12,"Gongguan":13,"Wanlong":14,"Jingmei":15,"Dapinling":16,
-    "Qizhang":17, "Xiaobitan":17.5,"Xindian City Hall":18,"Xindian":19}
-
-# 題目給的資訊(可能之後會有其他人的資訊以同樣的格式加入)
-messages={
-    "Leslie":"I'm at home near Xiaobitan station.",  
-    "Bob":"I'm at Ximen MRT station.",  
-    "Mary":"I have a drink near Jingmei MRT station.",  
-    "Copper":"I just saw a concert at Taipei Arena.", 
-    "Vivian":"I'm at Xindian station waiting for you."  
-}
-
-# 建立loc_dict字典，紀錄人名對應所在站點序號
-loc_dict = {}
-# 用for迴圈把訊息字典裡的每個鍵值跑一遍
-for name, message in messages.items():
-    # 把greenline字典的站名一個一個取出
-    for station in greenLine_dict.keys():
-        # 當值符合greenline裡的站時
-        if station in message:
-            # 將名字放入loc_dict的key
-            # 將對應的greenLine_dict的值放入loc_dict的value
-            loc_dict[name] = greenLine_dict[station]
-
+# task1 給一些朋友的訊息跟現在所在捷運站，判斷出哪位朋友跟你離最近 
 
 def find_and_print(messages, current_station):
+    # 建立loc_dict字典，紀錄人名對應所在站點序號
+    loc_dict = {}
+    # 用for迴圈把訊息字典裡的每個鍵值跑一遍
+    for name, message in messages.items():
+        # 把greenline字典的站名一個一個取出
+        for station in greenLine_dict.keys():
+            # 當值符合greenline裡的站時
+            if station in message:
+                # 將名字放入loc_dict的key
+                # 將對應的greenLine_dict的值放入loc_dict的value
+                loc_dict[name] = greenLine_dict[station]
+
     # 把函式的參數"站名"換成"站點序號"
     rightnow_loc = greenLine_dict[current_station]
     # 建立距離字典，人名:距離
@@ -57,6 +43,21 @@ def find_and_print(messages, current_station):
             closest_person=name
             print(closest_person)
 
+
+# 建立綠線字典，由題目給的站名對應序號
+greenLine_dict={"Songshan":1,"Nanjing Sanmin":2,"Taipei Arena":3,"Nanjing Fuxing":4,"Songjiang NanJing":5,"Zhongshan":6,
+    "Beimen":7,"Ximen":8,"Xiaonanmen":9,"Chiang Kai-Shek Memorial Hall":10,"Guting":11,
+    "Taipower Building":12,"Gongguan":13,"Wanlong":14,"Jingmei":15,"Dapinling":16,
+    "Qizhang":17, "Xiaobitan":17.5,"Xindian City Hall":18,"Xindian":19}
+
+# 題目給的資訊(可能之後會有其他人的資訊以同樣的格式加入)
+messages={
+    "Leslie":"I'm at home near Xiaobitan station.",  
+    "Bob":"I'm at Ximen MRT station.",  
+    "Mary":"I have a drink near Jingmei MRT station.",  
+    "Copper":"I just saw a concert at Taipei Arena.", 
+    "Vivian":"I'm at Xindian station waiting for you."  
+}
 
 find_and_print(messages, "Wanlong") # print Mary
 find_and_print(messages, "Songshan") # print Copper

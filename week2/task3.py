@@ -1,10 +1,12 @@
+# task3 判斷獨一無二的中間名
+
 def func(*data):
-    # 建立一個所有中間名的 list
-    middle_names_list = list()
+    # 建立一個所有 中間名 的 list
+    middle_names_list = []
     # 建立一個所有 中間名:名字 的dictionary
     name_middlename_dict = {}
 
-    # 用for迴圈抓每一個名字的中間名，放入list跟dictionary裡
+    # 用for迴圈抓每一個名字跟中間名，放入list跟dictionary裡
     for name in data:
         if len(name) <=3:   # 兩個字&三個字的名字
             middle_name = name[1]
