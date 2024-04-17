@@ -1,0 +1,199 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+}
+.navbar{
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    position: relative;
+}
+#popupMenuIcon{
+    display: none;
+    width: 22.5px;
+    height: 22.5px;
+    position: absolute;
+    right: 0px;
+}
+.menuItems{
+    display: flex;
+    justify-content: flex-end;
+    flex: auto;
+    gap: 10px;
+}
+#closeMenuIcon{
+    display: none;
+    width: 22.5px;
+    height: 22.5px;
+    position:fixed;
+    right: 5px;
+    top: 5px;
+}
+.welcomeText{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    font-size: 2em;
+    background-color: lightblue;
+    height: 250px;
+    margin-bottom: 20px;
+}
+.mainContent{
+    width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+.smallBoxes{
+    display: flex;
+    height: 70px;
+}
+.smallBox{
+    display: flex;
+    width: 100%;
+    background-color: lightblue;
+    margin: 10px;
+}
+.smallBoxPic{
+    width: 80px;
+    height: 50px;
+}
+.promotion{
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+.bigBoxes{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+}
+.bigBox{
+    position: relative;
+    margin: 10px;
+}
+.bigBox img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* 固定在bigbox下方的半透明文字框 */
+.title{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(184, 186, 184, 0.7);
+    padding: 5px;
+    text-align:center;
+}
+/* 固定在bigbox右上角的星星符號 */
+.star{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px; 
+    height: 30px;
+    opacity: 0.6;
+}
+.buttonArea{ 
+    margin: 5px;
+    text-align: center;
+}
+.loadmoreButton{
+    width: 10%;
+    padding: 5px; 
+    background-color: lightblue;
+    cursor: pointer;
+    border: 2;
+    border-color: azure;
+    border-radius: 5px;
+}
+.loadmoreButton:hover {
+    background-color: rgb(165, 174, 235);
+}
+/* 當視窗大小介於600-1200套用以下css */
+@media (min-width: 600px) and (max-width: 1200px){
+    .menuItems{
+        display: flex;
+        justify-content: flex-end;
+        flex: auto;
+        gap: 10px;
+    }
+    .mainContent{
+        width: 90%;
+    }
+    .smallBoxes{
+        flex-wrap:wrap;
+        height: auto;
+    }
+    .smallBox{
+        width:calc(50% - 20px);
+        height: 50px;
+    }
+    /* 指定第三個smallbox */
+    .smallBox:nth-child(3n){
+        width: 100%;
+    }
+    .bigBoxes{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .bigBox{
+        width: calc(25% - 20px);
+        min-height:300px;
+    }
+    /* 指定最後兩個bigbox */
+    .bigBox:nth-last-child(-n+2){
+        width: calc(50% - 20px);
+        min-height:300px;
+    }
+}
+
+/* 當視窗大小介於360-600套用以下css */
+@media (min-width:360px) and (max-width:600px){
+    #popupMenuIcon{
+        display: block;
+    }
+    .menuItems{
+        display: none;
+        background-color:white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+        position: fixed;
+        top:0;
+        right:0;
+        height:100%;
+        width: 50%;
+        z-index:9999;
+    }
+    .menuItems div{
+        margin: 30px;
+        text-align: center;
+    }
+    #closeMenuIcon{
+        display: block;
+    }
+    .mainContent{
+        width: 90%;
+    }
+    .smallBoxes{
+        display: grid;
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    .smallBox{
+        width: 100%;
+        margin: 10px 0;
+    }
+    .bigBoxes{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .bigBox{
+        width: 100%;
+        margin: 10px 0;
+    }
+    /* 指定最後兩個bigbox */
+    .bigBox:nth-last-child(-n+2){
+        width: 100%;
+    }
+}
