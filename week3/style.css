@@ -85,6 +85,9 @@ body{
     background-color: rgba(184, 186, 184, 0.7);
     padding: 5px;
     text-align:center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 /* 固定在bigbox右上角的星星符號 */
 .star{

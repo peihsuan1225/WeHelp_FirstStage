@@ -58,6 +58,7 @@ request.onreadystatechange = function(){
 
                 var titleElement = document.createElement("div");
                 titleElement.textContent = title; // 指定內容(來自csv檔案)
+                titleElement.title = title;
                 var imgElement = document.createElement("img");
                 imgElement.src = imgUrl; // 指定連結(來自csv檔案)
 
