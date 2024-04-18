@@ -1,3 +1,7 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+*{
+    font-family:"Noto Sans TC", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+}
 body{
     margin: 0;
     padding: 0;
@@ -103,16 +107,16 @@ body{
     text-align: center;
 }
 .loadmoreButton{
-    width: 10%;
-    padding: 5px; 
+    width: auto;
+    padding: 10px; 
     background-color: lightblue;
     cursor: pointer;
-    border: 2;
-    border-color: azure;
+    border:10px;
     border-radius: 5px;
+    font-size:15px;
 }
 .loadmoreButton:hover {
-    background-color: rgb(165, 174, 235);
+    background-color: rgb(75 185 229 / 71%);
 }
 /* 當視窗大小介於600-1200套用以下css */
 @media (min-width: 600px) and (max-width: 1200px){
