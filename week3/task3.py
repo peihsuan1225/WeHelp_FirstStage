@@ -1,3 +1,4 @@
+# 抓取景點名稱與第一張照片，放到task3_use.csv的檔案內
 import urllib.request as req
 import json
 url="https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1"

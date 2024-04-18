@@ -7,13 +7,13 @@ def getData(url,open_mode):
         "cookie":"over18=1",
         "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
     })
-    # 透過請求造訪網頁，並獲取樂透版網頁內容存放在data變數中
+    # 透過請求造訪網頁，並獲取樂透版網頁內容存放在data中
     with req.urlopen(request) as response:
         data = response.read().decode("utf-8")
     # 導入Beautiful Soup 4 模組
     import bs4
     # 打開一個article.csv的檔案
-    with open("article.csv",open_mode,encoding="utf-8") as file:
+    with open("task2_article.csv",open_mode,encoding="utf-8") as file:
         # 用bs4解析網頁的HTML內容
         root = bs4.BeautifulSoup(data,"html.parser")
         # 抓取 class=r-ent的div(裡面包含貼文的所有資訊)
@@ -63,7 +63,7 @@ def getData(url,open_mode):
         return nextlink["href"] # 回傳這個標籤的href屬性
 
 pageurl="https://www.ptt.cc/bbs/Lottery/index.html"
-# 用迴圈來抓取前三頁的資料，並把檔案的mode設定為第一頁是w(清空>賦值)，二三頁是a(追加內容)
+# 用迴圈跟函式來抓取前三頁的資料，並把檔案的mode設定為第一頁是w(清空>賦值)，二三頁是a(追加內容)
 count = 0
 while count<3:
     if count == 0:

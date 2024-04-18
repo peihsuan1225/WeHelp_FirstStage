@@ -25,7 +25,7 @@ for item in results2:
 
 
 # 開啟一個spot.csv檔案，寫入指定的內容
-with open("spot.csv","w",encoding="utf-8") as file:
+with open("task1_spot.csv","w",encoding="utf-8") as file:
     # 遍歷 results1 取得對應的標題、編號、經緯度、圖片連結
     for infos in results1:
         SpotTitle = infos["stitle"] 
@@ -41,7 +41,7 @@ with open("spot.csv","w",encoding="utf-8") as file:
 # 建立一個mtr_spot_dict字典，存放捷運站名(不重複):景點名
 mtr_spot_dict={}
 # 開啟一個mrt.csv檔案，寫入指定的內容
-with open("mrt.csv","w",encoding="utf-8") as file:
+with open("task1_mrt.csv","w",encoding="utf-8") as file:
     # 在第一個連結的資料中，取出景點編號對應到no_mrt_dict字典的捷運站，把捷運站加到mtr_spot_dict中當做key
     for infos1 in results1:
         spotNo = infos1["SERIAL_NO"]

@@ -1,4 +1,4 @@
-// popup視窗處理
+// popup視窗處理:
 // 取得class是menuItems這個標籤物件
 var menu=document.querySelector(".menuItems");
 
@@ -24,18 +24,22 @@ window.addEventListener('resize', function() {
 });
 
 // ---------------------------------------------------------------------------------------------------
-// 引用外部資料處理
+// 引用外部資料並放進box格式內，加載更多按鈕動作處理:
 // 發送 HTTP GET 請求獲取 CSV 檔案
 var request = new XMLHttpRequest();
+// open 方法用於設定請求的方法、URL 和是否異步進行
+//"GET"：請求的方法。"task3_use.csv"：請求的 URL，指向一個 CSV 文件。true：表示請求應當是非同步的
 request.open("GET","task3_use.csv",true);
+// onreadystatechange 事件處理器，在 request 對象的狀態變化時被觸發。當狀態變化的處理函式被呼叫時
+// readyState === 4：表示請求已完成，並且響應已經就緒。status === 200：HTTP 狀態碼 200 表示請求成功。
 request.onreadystatechange = function(){
     if(request.readyState === 4 && request.status ===200){
         var csvData = request.responseText;
         var lines = csvData.split("\n")
-
+        // 設定預設值:開始顯示>第1筆，結束顯示>第13筆，次數>1
         var startNum = 0;
         var endNum = 12;
-        var count = 0;
+        var count = 1;
         function loadMore(){
             // 將 CSV 檔案的每一行拆解為標題和圖片連結
             for (var i = startNum;i <= endNum; i++){
@@ -80,7 +84,8 @@ request.onreadystatechange = function(){
 
                 };
             }
-            if(count == 0){
+            // 在第1次的時候 開始顯示>第13筆，之後的次數就是再加10
+            if(count == 1){
                 startNum = 13;
             }
             else{
@@ -89,11 +94,12 @@ request.onreadystatechange = function(){
             endNum +=10
             count +=1 
         }
-        
+        // 初始網頁加載
         loadMore();
-
+        // 點擊loadmore按鈕會呼叫loadMore function
         var loadMoreBtn = document.querySelector(".loadmoreButton");
         loadMoreBtn.addEventListener("click",loadMore);
     }
 };
+// 發送請求
 request.send();
