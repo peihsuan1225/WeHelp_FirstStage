@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>member</title>
+        <style>
+            body{
+                margin: 0;
+                font-family: "Noto Sans TC", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
+                font-size: 20px;
+            }
+            .head{
+                background-color: midnightblue;
+                color: azure;
+                font-size: 30px;
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            div{
+                text-align: center;
+            }
+            input{
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="head">歡迎光臨，這是會員頁</div>
+        <div style="font-weight: bold;">恭喜您，成功登入系統</div>
+        <div style="margin: 10px;"><a href="http://127.0.0.1:8000/signout" onclick="signout()">登出系統</div>
+        <script>
+            function signout(){
+                fetch("http://127.0.0.1:8000/signout")
+            }
+        </script>
+    </body>
+</html>

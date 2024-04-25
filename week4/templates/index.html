@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>signin</title>
+        <style>
+            body{
+                margin: 0;
+                font-family: "Noto Sans TC", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
+                font-size: 20px;
+            }
+            .head{
+                background-color: midnightblue;
+                color: azure;
+                font-size: 30px;
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            div{
+                text-align: center;
+            }
+            input{
+                margin-left: 10px;
+            }
+            #agreeCheckbox{
+                width: 15px;
+                height: 15px;
+                margin-bottom: 2px;
+                vertical-align: bottom; 
+            }
+        </style>
+    </head>
+    <body>
+        <div class="head">歡迎光臨，請輸入帳號密碼</div>
+        <div style="font-weight: bold;">登入系統</div>
+        <div style="margin: 10px;">帳號<input id="userName"></div>
+        <div style="margin: 10px;">密碼<input id="passWord"></div>
+        <div style="margin: 10px; font-size: 15px; text-decoration: underline;">同意條款<input type="checkbox" id="agreeCheckbox"></div>
+        <div style="margin: 10px;"><button onclick="submit()">登入</button></div>
+    <script>
+        function submit(){
+            var checkbox = document.querySelector("#agreeCheckbox");
+            if(!checkbox.checked){
+                alert('Please check the checkbox first');
+                return;
+            }
+            var userName = document.querySelector("#userName").value;
+            var passWord = document.querySelector("#passWord").value;
+            fetch('http://127.0.0.1:8000/signin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({username: userName, password: passWord})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.signed) {
+                        window.location.href = 'http://127.0.0.1:8000/member';
+                    } else {
+                        window.location.href = `http://127.0.0.1:8000/error?message=${encodeURIComponent(data.message)}`;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+    </script>
+    </body>
+</html>
