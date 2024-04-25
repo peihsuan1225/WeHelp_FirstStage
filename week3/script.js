@@ -41,8 +41,17 @@ request.onreadystatechange = function(){
         var endNum = 12;
         var count = 1;
         function loadMore(){
+            // 計算剩下的資料數
+            var remaindata = lines.length - startNum;
+            // 檢查還有沒有剩下的資料
+            if (remaindata <= 0){
+                console.log("沒有更多資料")
+                return;
+            }
+            // 計算要load的資料筆數，如果小於10就取原數，大於10就取10
+            var dataToLoad = Math.min(remaindata,10);
             // 將 CSV 檔案的每一行拆解為標題和圖片連結
-            for (var i = startNum;i <= endNum; i++){
+            for (var i = startNum;i <= startNum+dataToLoad; i++){
                 var parts = lines[i].split(",");
                 var title = parts[0];
                 var imgUrl = parts[1];
@@ -89,9 +98,9 @@ request.onreadystatechange = function(){
                 startNum = 13;
             }
             else{
-                startNum += 10;
+                startNum += dataToLoad;
             }
-            endNum +=10
+            // endNum +=10
             count +=1 
         }
         // 初始網頁加載
