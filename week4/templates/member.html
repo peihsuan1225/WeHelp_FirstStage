@@ -32,6 +32,7 @@
         <div style="font-weight: bold;">恭喜您，成功登入系統</div>
         <div style="margin: 10px;"><a href="http://127.0.0.1:8000/signout" onclick="signout()">登出系統</div>
         <script>
+            // 用fetch對signout網址發出請求
             function signout(){
                 fetch("http://127.0.0.1:8000/signout")
             }
