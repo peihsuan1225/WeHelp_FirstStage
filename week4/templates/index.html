@@ -41,14 +41,17 @@
         <div style="margin: 10px; font-size: 15px; text-decoration: underline;">同意條款<input type="checkbox" id="agreeCheckbox"></div>
         <div style="margin: 10px;"><button onclick="submit()">登入</button></div>
     <script>
+        // submit function 檢查確認框是否有勾選，如果沒有跳出警告訊息
         function submit(){
             var checkbox = document.querySelector("#agreeCheckbox");
             if(!checkbox.checked){
                 alert('Please check the checkbox first');
                 return;
             }
+            // 獲取帳號密碼的輸入值，分別儲存在變數userName,passWord中
             var userName = document.querySelector("#userName").value;
             var passWord = document.querySelector("#passWord").value;
+            // 用JSON格式傳遞帳號密碼
             fetch('http://127.0.0.1:8000/signin', {
                     method: 'POST',
                     headers: {
@@ -57,6 +60,7 @@
                     body: JSON.stringify({username: userName, password: passWord})
                 })
                 .then(response => response.json())
+                // 如果登入狀態是True就導向會員頁面，否則導向error頁面並顯示對應的錯誤資訊
                 .then(data => {
                     if (data.signed) {
                         window.location.href = 'http://127.0.0.1:8000/member';
@@ -64,7 +68,6 @@
                         window.location.href = `http://127.0.0.1:8000/error?message=${encodeURIComponent(data.message)}`;
                     }
                 })
-                .catch(error => console.error('Error:', error));
             }
     </script>
     </body>
