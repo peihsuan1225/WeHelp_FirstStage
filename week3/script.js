@@ -80,7 +80,7 @@ request.onreadystatechange = function(){
                 imgElement.src = imgUrl; // 指定連結(來自csv檔案)
 
                 // 前三組用smallbox的形式，後面的用bigbox的形式
-                if(i<3){
+                if(i-1<3){
                     imgElement.className = "smallBoxPic";
                     titleElement.className = "promotion";
                     smallBoxesElement.appendChild(smallBoxElement);
