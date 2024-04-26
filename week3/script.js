@@ -36,13 +36,12 @@ request.onreadystatechange = function(){
     if(request.readyState === 4 && request.status ===200){
         var csvData = request.responseText;
         var lines = csvData.split("\n")
-        // 設定預設值:開始顯示>第1筆，結束顯示>第13筆，次數>1
-        var startNum = 0;
-        var endNum = 12;
+        // 設定預設值:開始顯示>第1筆，次數>1
+        var startNum = 1;
         var count = 1;
         function loadMore(){
             // 計算剩下的資料數
-            var remaindata = lines.length - startNum;
+            var remaindata = lines.length - startNum + 1;
             // 檢查還有沒有剩下的資料
             if (remaindata <= 0){
                 console.log("沒有更多資料")
@@ -50,8 +49,13 @@ request.onreadystatechange = function(){
             }
             // 計算要load的資料筆數，如果小於10就取原數，大於10就取10
             var dataToLoad = Math.min(remaindata,10);
+             // 在第1次的時候 顯示13筆
+            if(count == 1){
+                dataToLoad = 13;
+            }
+            
             // 將 CSV 檔案的每一行拆解為標題和圖片連結
-            for (var i = startNum;i <= startNum+dataToLoad; i++){
+            for (var i = startNum-1; i < startNum + dataToLoad-1; i++){
                 var parts = lines[i].split(",");
                 var title = parts[0];
                 var imgUrl = parts[1];
@@ -93,15 +97,10 @@ request.onreadystatechange = function(){
 
                 };
             }
-            // 在第1次的時候 開始顯示>第13筆，之後的次數就是再加10
-            if(count == 1){
-                startNum = 13;
-            }
-            else{
-                startNum += dataToLoad;
-            }
+           
             // endNum +=10
             count +=1 
+            startNum = startNum+dataToLoad;
         }
         // 初始網頁加載
         loadMore();
