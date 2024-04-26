@@ -55,8 +55,8 @@ request.onreadystatechange = function(){
             }
             
             // 將 CSV 檔案的每一行拆解為標題和圖片連結
-            for (var i = startNum-1; i < startNum + dataToLoad-1; i++){
-                var parts = lines[i].split(",");
+            for (var i = startNum; i < startNum + dataToLoad; i++){
+                var parts = lines[i-1].split(",");
                 var title = parts[0];
                 var imgUrl = parts[1];
 
