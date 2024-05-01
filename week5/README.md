@@ -169,8 +169,7 @@
 	- screenshot
 
 		![](screenshot/t5-1.png)
-- SELECT all messages, including sender names. We have to JOIN the member table
-to get that.
+- SELECT all messages, including sender names. We have to JOIN the member table to get that.
 	- SQL statements
 
 		```SQL
@@ -181,8 +180,7 @@ to get that.
 	- screenshot
 
 		![](screenshot/t5-2.png)
-- SELECT all messages, including sender names, where sender username equals to
-test. We have to JOIN the member table to filter and get that.
+- SELECT all messages, including sender names, where sender username equals to test. We have to JOIN the member table to filter and get that.
 	- SQL statements
 
 		```SQL
@@ -194,8 +192,8 @@ test. We have to JOIN the member table to filter and get that.
 	- screenshot
 
 		![](screenshot/t5-3.png)
-- Use SELECT, SQL Aggregation Functions with JOIN statement, get the average like
-count of messages where sender username equals to test.
+- Use SELECT, SQL Aggregation Functions with JOIN statement, get the average like count of messages where sender username equals to test.
+	- SQL statements
 
 		```SQL
 		SELECT AVG(message.like_count) AS test_average_like_count
@@ -206,8 +204,8 @@ count of messages where sender username equals to test.
 	- screenshot
 
 		![](screenshot/t5-4.png)
-- Use SELECT, SQL Aggregation Functions with JOIN statement, get the average like
-count of messages GROUP BY sender username.
+- Use SELECT, SQL Aggregation Functions with JOIN statement, get the average like count of messages GROUP BY sender username.
+	- SQL statements
 
 		```SQL
 		SELECT member.username AS sender_username, AVG(message.like_count) AS average_like_count
