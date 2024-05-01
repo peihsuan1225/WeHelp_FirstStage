@@ -9,6 +9,7 @@
 
 		![](screenshot/t2-1.png)
 - Create a new table named member, in the website database, designed as below:
+	![](screenshot/task2.png)
 	- SQL statements
 
 		```SQL
@@ -152,6 +153,7 @@
 ---
 ## Task 5: SQL JOIN
 -  Create a new table named message, in the website database. designed as below:
+	![](screenshot/task5.png)
 	- SQL statements
 
 		```SQL
