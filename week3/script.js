@@ -36,7 +36,7 @@ request.onreadystatechange = function(){
     if(request.readyState === 4 && request.status ===200){
         var csvData = request.responseText;
         var lines = csvData.split("\n")
-        // 設定預設值:開始顯示>第1筆，次數>1
+        // 設定預設值:開始顯示=第1筆，次數=1
         var startNum = 1;
         var count = 1;
         function loadMore(){
@@ -59,6 +59,7 @@ request.onreadystatechange = function(){
                 var parts = lines[i-1].split(",");
                 var title = parts[0];
                 var imgUrl = parts[1];
+                console.log(i-1)
 
                 // 定義元素跟創建元素(按照原本html的結構去做)
                 var smallBoxesElement = document.querySelector(".smallBoxes");
