@@ -47,12 +47,14 @@ request.onreadystatechange = function(){
                 console.log("沒有更多資料")
                 return;
             }
+            // 要load的資料筆數在第一次會=13，除此之外取"剩餘資料數"跟"10"之間較小的值
+            var dataToLoad = count == 0 ? 13 : Math.min(remaindata, 10);
             // 計算要load的資料筆數，如果小於10就取原數，大於10就取10
-            var dataToLoad = Math.min(remaindata,10);
-             // 在第1次的時候 顯示13筆
-            if(count == 0){
-                dataToLoad = 13;
-            }
+            // var dataToLoad = Math.min(remaindata,10);
+            //  // 在第1次的時候 顯示13筆
+            // if(count == 0){
+            //     dataToLoad = 13;
+            // }
             
             // 將 CSV 檔案的每一行拆解為標題和圖片連結
             for (var i = startNum; i < startNum + dataToLoad; i++){
