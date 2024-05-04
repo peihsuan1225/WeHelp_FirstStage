@@ -36,7 +36,7 @@ request.onreadystatechange = function(){
     if(request.readyState === 4 && request.status ===200){
         var csvData = request.responseText;
         var lines = csvData.split("\n");
-        // 設定預設值:開始顯示=第1筆，次數=1
+        // 設定startNum, count的預設值
         var startNum = 0;
         var count = 0;
         function loadMore(){
@@ -44,7 +44,7 @@ request.onreadystatechange = function(){
             var remaindata = lines.length - startNum;
             // 檢查還有沒有剩下的資料
             if (remaindata <= 0){
-                console.log("沒有更多資料")
+                // console.log("沒有更多資料");
                 return;
             }
             // 要load的資料筆數在第一次會=13，除此之外取"剩餘資料數"跟"10"之間較小的值
@@ -61,7 +61,7 @@ request.onreadystatechange = function(){
                 var parts = lines[i].split(",");
                 var title = parts[0];
                 var imgUrl = parts[1];
-                console.log(i)
+                // console.log(i);
 
                 // 定義元素跟創建元素(按照原本html的結構去做)
                 var smallBoxesElement = document.querySelector(".smallBoxes");
