@@ -8,9 +8,14 @@ with req.urlopen(url) as response:
 result = data["data"]["results"]
 
 with open("task3_use.csv","w",encoding="utf-8") as file:
-    for info in result:
+    for index, info in enumerate(result):
         spot_title = info["stitle"]
         images = info["filelist"]
         first_image = images.split("https")[1]
         first_image_fullurl = "https"+ first_image
-        file.write(f"{spot_title},{first_image_fullurl}\n")
+
+        # 如果是最後一行(長度減一是因為index從0開始)，就直接輸出資料不用往下換行(避免出現多一行空值)
+        if index == len(result) -1 :
+            file.write(f"{spot_title},{first_image_fullurl}")
+        else:
+            file.write(f"{spot_title},{first_image_fullurl}\n")

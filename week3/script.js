@@ -35,7 +35,7 @@ request.open("GET","task3_use.csv",true);
 request.onreadystatechange = function(){
     if(request.readyState === 4 && request.status ===200){
         var csvData = request.responseText;
-        var lines = csvData.split("\n")
+        var lines = csvData.split("\n");
         // 設定預設值:開始顯示=第1筆，次數=1
         var startNum = 1;
         var count = 1;
@@ -100,7 +100,7 @@ request.onreadystatechange = function(){
             }
            
             // endNum +=10
-            count +=1 
+            count +=1 ;
             startNum = startNum+dataToLoad;
         }
         // 初始網頁加載
