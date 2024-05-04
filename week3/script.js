@@ -37,11 +37,11 @@ request.onreadystatechange = function(){
         var csvData = request.responseText;
         var lines = csvData.split("\n");
         // 設定預設值:開始顯示=第1筆，次數=1
-        var startNum = 1;
-        var count = 1;
+        var startNum = 0;
+        var count = 0;
         function loadMore(){
             // 計算剩下的資料數
-            var remaindata = lines.length - startNum + 1;
+            var remaindata = lines.length - startNum;
             // 檢查還有沒有剩下的資料
             if (remaindata <= 0){
                 console.log("沒有更多資料")
@@ -50,16 +50,16 @@ request.onreadystatechange = function(){
             // 計算要load的資料筆數，如果小於10就取原數，大於10就取10
             var dataToLoad = Math.min(remaindata,10);
              // 在第1次的時候 顯示13筆
-            if(count == 1){
+            if(count == 0){
                 dataToLoad = 13;
             }
             
             // 將 CSV 檔案的每一行拆解為標題和圖片連結
             for (var i = startNum; i < startNum + dataToLoad; i++){
-                var parts = lines[i-1].split(",");
+                var parts = lines[i].split(",");
                 var title = parts[0];
                 var imgUrl = parts[1];
-                console.log(i-1)
+                console.log(i)
 
                 // 定義元素跟創建元素(按照原本html的結構去做)
                 var smallBoxesElement = document.querySelector(".smallBoxes");
@@ -81,7 +81,7 @@ request.onreadystatechange = function(){
                 imgElement.src = imgUrl; // 指定連結(來自csv檔案)
 
                 // 前三組用smallbox的形式，後面的用bigbox的形式
-                if(i-1<3){
+                if(i<3){
                     imgElement.className = "smallBoxPic";
                     titleElement.className = "promotion";
                     smallBoxesElement.appendChild(smallBoxElement);
@@ -99,7 +99,6 @@ request.onreadystatechange = function(){
                 };
             }
            
-            // endNum +=10
             count +=1 ;
             startNum = startNum+dataToLoad;
         }
