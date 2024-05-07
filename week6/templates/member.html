@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>member</title>
+        <style>
+            body{
+                margin: 0;
+                font-family: "Noto Sans TC", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
+                font-size: 20px;
+            }
+            .head{
+                background-color: midnightblue;
+                color: azure;
+                font-size: 30px;
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            div{
+                text-align: center;
+            }
+            input{
+                margin-left: 10px;
+            }
+            table{
+                margin: 0 auto 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="head">歡迎光臨，這是會員頁</div>
+        <div style="font-weight: bold;">{{request.session.NAME}}，歡迎登入系統</div>
+        <div style="margin: 10px;"><a href="http://127.0.0.1:8000/signout" onclick="signout()">登出系統</a></div>
+        <hr style="width: 300px;margin: 30px auto;">
+        <div style="font-weight: bold;">快來留言吧</div>
+        <form id="messgaeForm" action="/CreateMessage" method="post">
+            <div style="margin: 10px;">內容<input name="messgae_content" id="messgae_content" ></div>
+            <div style="margin: 10px;"><input type="submit" value="送出"></div>
+        </form>
+        <hr style="width: 300px;margin: 30px auto;">
+        <div>
+            <table>
+                {% for row in result %}
+                <tr>
+                    <td>{{row[2]}}</td>
+                    <td>:</td>
+                    <td>{{row[1]}}</td>
+                    <td>
+                        {% if row[2] == request.session.NAME %}
+                        <button onclick="deleteMessage('{{row[0]}}','{{row[2]}}')">x</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <script>
+            // 用fetch對signout網址發出請求
+            function signout(){
+                fetch("http://127.0.0.1:8000/signout")
+            }
+            document.querySelector("#messgaeForm").addEventListener("submit",function(emptyEvent){
+                var messgae_content = document.querySelector("#messgae_content").value.trim();
+                if (messgae_content === ""){
+                    alert("留言內容不能為空");
+                    emptyEvent.preventDefault();
+                }
+            })
+            function deleteMessage(message_id,member_name){
+                if(confirm("確定要刪除留言嗎?")){
+                    fetch("http://127.0.0.1:8000/deleteMessage",{
+                        method:"POST",
+                        headers:{
+                            "Content-Type":"application/json"
+                        },
+                        body:JSON.stringify({message_id:message_id,member_name:member_name})
+                    })
+                    .then(response => {
+                        if (response.redirected) {
+                        window.location.href = response.url;
+                        }
+                    })
+                }
+            }
+            
+        </script>
+    </body>
+</html>

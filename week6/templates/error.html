@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>somethingWrong</title>
+        <style>
+            body{
+                margin: 0;
+                font-family: "Noto Sans TC", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
+                font-size: 20px;
+            }
+            .head{
+                background-color: midnightblue;
+                color: azure;
+                font-size: 30px;
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 30px;
+                font-weight: bold;
+            }
+            div{
+                text-align: center;
+            }
+            input{
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="head">失敗頁面</div>
+        <div style="font-weight: bold;" id="error_message">{{message}}</div>
+        <div><button style="margin: 30px;" id="back_to_signin">返回首頁</button><div>
+
+        <script>
+            // 從當前 URL 的查詢字符串中獲取指定參數的值
+            function getQueryStringParam(param){
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+            // 將id為error_message的div放入從上面fuction獲取的值
+            document.querySelector("#error_message").innerText = getQueryStringParam("message");
+            // 事件監聽器，點擊id為back_to_signin的btn會導向首頁
+            document.querySelector("#back_to_signin").addEventListener("click",function(){
+                window.location.href = "http://127.0.0.1:8000";
+            });
+        </script>
+    </body>
+</html>

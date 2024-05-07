@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>home</title>
+        <style>
+            body{
+                margin: 0;
+                font-family: "Noto Sans TC", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
+                font-size: 20px;
+            }
+            .head{
+                background-color: midnightblue;
+                color: azure;
+                font-size: 30px;
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            div{
+                text-align: center;
+            }
+            input{
+                margin-left: 10px;
+            }
+            #agreeCheckbox{
+                width: 15px;
+                height: 15px;
+                margin-bottom: 2px;
+                vertical-align: bottom; 
+            }
+        </style>
+    </head>
+    <body>
+        <div class="head">歡迎光臨，請註冊登入系統</div>
+        <form id="signupForm" action="/signup" method="post">
+            <div style="font-weight: bold;">註冊帳號</div>
+            <div style="margin: 10px;">姓名<input id="signup_name" name="signup_name"></div>
+            <div style="margin: 10px;">帳號<input id="signup_username" name="signup_username"></div>
+            <div style="margin: 10px;">密碼<input id="signup_password" name="signup_password"></div>
+            <div><input type="submit" value="註冊"></div>
+        </form>
+        <hr style="width: 300px;margin: 40px auto;">
+        <form id="signinForm" action="/signin" method="post">
+            <div style="font-weight: bold;">登入系統</div>
+            <div style="margin: 10px;">帳號<input id="signin_username" name="signin_username"></div>
+            <div style="margin: 10px;">密碼<input id="signin_password" name="signin_password"></div>
+            <div><input type="submit" value="登入"></div>
+        </form>
+    <script>
+        // 在觸發註冊的submit時，先檢查是否有沒輸入的欄位，如果有就跳出訊息，並阻止submit
+        document.querySelector("#signupForm").addEventListener("submit", function(emptyEvent) {
+            var signup_name = document.querySelector("#signup_name").value.trim();
+            var signup_username = document.querySelector("#signup_username").value.trim();
+            var signup_password = document.querySelector("#signup_password").value.trim();
+
+            var signup_errorMessage = ""; // 初始化错误信息
+
+            if (signup_name === "") {
+                signup_errorMessage += "姓名";
+            }
+
+            if (signup_username === "") {
+                signup_errorMessage += signup_errorMessage === "" ? "帳號" : "、帳號";
+            }
+
+            if (signup_password === "") {
+                signup_errorMessage += signup_errorMessage === "" ? "密碼" : "、密碼";
+            }
+
+            if (signup_errorMessage !== "") {
+                alert("請輸入" + signup_errorMessage);
+                emptyEvent.preventDefault();
+            }
+        });
+
+        // 在觸發登入的submit時，先檢查是否有沒輸入的欄位，如果有就跳出訊息，並阻止submit
+        document.querySelector("#signinForm").addEventListener("submit", function(emptyEvent) {
+            var signin_username = document.querySelector("#signin_username").value.trim();
+            var signin_password = document.querySelector("#signin_password").value.trim();
+
+            var signin_errorMessage = ""; // 初始化错误信息
+
+            if (signin_username === "") {
+                signin_errorMessage += signin_errorMessage === "" ? "帳號" : "、帳號";
+            }
+
+            if (signin_password === "") {
+                signin_errorMessage += signin_errorMessage === "" ? "密碼" : "、密碼";
+            }
+
+            if (signin_errorMessage !== "") {
+                alert("請輸入" + signin_errorMessage);
+                emptyEvent.preventDefault();
+            }
+        });
+    </script>
+    </body>
+</html>
