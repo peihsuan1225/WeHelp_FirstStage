@@ -35,6 +35,7 @@
     </head>
     <body>
         <div class="head">歡迎光臨，請註冊登入系統</div>
+        <!-- 註冊表單 (傳送 signup_name, signup_username, signup_password 到 後端signup路徑) -->
         <form id="signupForm" action="/signup" method="post">
             <div style="font-weight: bold;">註冊帳號</div>
             <div style="margin: 10px;">姓名<input id="signup_name" name="signup_name"></div>
@@ -42,6 +43,7 @@
             <div style="margin: 10px;">密碼<input id="signup_password" name="signup_password"></div>
             <div><input type="submit" value="註冊"></div>
         </form>
+        <!-- 登入表單 (傳送 signin_username, signin_password 到 後端signin路徑) -->
         <hr style="width: 300px;margin: 40px auto;">
         <form id="signinForm" action="/signin" method="post">
             <div style="font-weight: bold;">登入系統</div>
@@ -50,13 +52,13 @@
             <div><input type="submit" value="登入"></div>
         </form>
     <script>
-        // 在觸發註冊的submit時，先檢查是否有沒輸入的欄位，如果有就跳出訊息，並阻止submit
+        // 在觸發註冊的submit時，若有無值輸入框，就跳出錯誤訊息、阻止submit
         document.querySelector("#signupForm").addEventListener("submit", function(emptyEvent) {
             var signup_name = document.querySelector("#signup_name").value.trim();
             var signup_username = document.querySelector("#signup_username").value.trim();
             var signup_password = document.querySelector("#signup_password").value.trim();
 
-            var signup_errorMessage = ""; // 初始化错误信息
+            var signup_errorMessage = ""; 
 
             if (signup_name === "") {
                 signup_errorMessage += "姓名";
@@ -76,12 +78,12 @@
             }
         });
 
-        // 在觸發登入的submit時，先檢查是否有沒輸入的欄位，如果有就跳出訊息，並阻止submit
+        // 在觸發登入的submit時，若有無值輸入框，就跳出錯誤訊息、阻止submit
         document.querySelector("#signinForm").addEventListener("submit", function(emptyEvent) {
             var signin_username = document.querySelector("#signin_username").value.trim();
             var signin_password = document.querySelector("#signin_password").value.trim();
 
-            var signin_errorMessage = ""; // 初始化错误信息
+            var signin_errorMessage = ""; 
 
             if (signin_username === "") {
                 signin_errorMessage += signin_errorMessage === "" ? "帳號" : "、帳號";

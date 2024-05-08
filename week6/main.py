@@ -11,7 +11,7 @@ templates = Jinja2Templates(directory="templates")
 # 存取資料工具
 app.add_middleware(SessionMiddleware, secret_key="super-secret-key")
 
-
+# 連線到資料庫的資訊
 def connect_to_database():
     return mysql.connector.connect(
     host = "localhost",
@@ -21,17 +21,18 @@ def connect_to_database():
 )
 
 
-
 # 根路徑，套用 "index.html" 
 @app.get("/")
 def main_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+# signup路徑，由前端獲取姓名、帳號、密碼
+# 連線到資料庫確認是否已有存在的username，若有導向到error路徑，若無則新增資料到member table 並導向到根路徑
 @app.post("/signup")
 async def signup(request:Request, signup_name: str = Form(None), signup_username: str = Form(None), signup_password: str = Form(None)):
     mydb = connect_to_database()
     cursor = mydb.cursor()
-    signup_query = "SELECT * FROM member WHERE username = %s"
+    signup_query = "SELECT * FROM member WHERE username = %s COLLATE utf8mb4_bin"
     cursor.execute(signup_query, (signup_username,))
     result = cursor.fetchall()
     if result:
@@ -45,11 +46,13 @@ async def signup(request:Request, signup_name: str = Form(None), signup_username
     mydb.close()
     return RedirectResponse(url="/", status_code=302)
 
+# signin路徑，由前端獲取帳號、密碼
+# 連線到資料庫確認是否有對應的帳號、密碼，若有則儲存登入狀態、會員ID、會員姓名、會員帳號 並導向member路徑，若無則導向到error路徑
 @app.post("/signin")
 async def signin(request: Request, signin_username: str = Form(None), signin_password: str = Form(None)):
     mydb = connect_to_database()
     cursor = mydb.cursor()
-    signin_query = "SELECT * FROM member WHERE username = %s AND password = %s"
+    signin_query = "SELECT * FROM member WHERE username = %s COLLATE utf8mb4_bin AND password = %s COLLATE utf8mb4_bin"
     cursor.execute(signin_query, (signin_username, signin_password))
     result = cursor.fetchall()
     cursor.close()
@@ -59,11 +62,13 @@ async def signin(request: Request, signin_username: str = Form(None), signin_pas
         session["SIGNED-IN"] = True
         session["ID"] = result[0][0]
         session["NAME"] = result[0][1]
+        session["USERNAME"] = result[0][2]
         return RedirectResponse(url="/member", status_code=302)
     else:
         return RedirectResponse(url="/error?message=帳號或密碼輸入錯誤", status_code=302)
 
-# member路徑，會先確認SIGNED-IN是否為ture(已登入)，如果是才套用"member.html"，否則回到首頁
+# member路徑，會先確認SIGNED-IN是否為ture(已登入)，如果是才套用"member.html"，否則回到根路徑
+# 連線到資料庫抓取所有message的data(時間倒序)，欄位包括 message.id, message.content, member.name 
 @app.get("/member")
 async def member_page(request: Request):
     signed = request.session.get("SIGNED-IN")
@@ -83,7 +88,8 @@ async def member_page(request: Request):
         return templates.TemplateResponse("member.html", {"request": request,"result": result})
     else:
         return RedirectResponse(url="/")
-    
+
+# CreateMessage路徑，將 當前紀錄的會員id 和 前端獲取的留言內容 加入message table，並導向member路徑
 @app.post("/CreateMessage")
 async def createMessage(request: Request, messgae_content:str = Form(None)):
     mydb = connect_to_database()
@@ -95,6 +101,8 @@ async def createMessage(request: Request, messgae_content:str = Form(None)):
     mydb.close()
     return RedirectResponse(url="/member", status_code=302)
 
+# deleteMessage路徑，先確認 將被刪除的留言的使用者 是否等於 當前登入的使用者
+# 上方條件成立才連線到資料庫，透過message_id刪除對應留言，並導向member路徑
 @app.post("/deleteMessage")
 async def deleteMessage(request: Request):
     data = await request.json()
@@ -118,9 +126,12 @@ async def deleteMessage(request: Request):
 async def error_page(request: Request):
     return templates.TemplateResponse("error.html", {"request": request})
 
-# signout路徑，紀錄SIGNED-IN為false(已登出)，重新導向首頁
+# signout路徑，紀錄SIGNED-IN為false(已登出)、清除會員ID、會員姓名、會員帳號的值，重新導向根路徑
 @app.get("/signout")
 async def signout(request:Request):
     session = request.session
     session["SIGNED-IN"] = False
+    session["ID"] = None
+    session["NAME"] = None
+    session["USERNAME"] = None
     return RedirectResponse(url="/")
