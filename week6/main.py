@@ -68,7 +68,7 @@ async def signin(request: Request, signin_username: str = Form(None), signin_pas
         return RedirectResponse(url="/error?message=帳號或密碼輸入錯誤", status_code=302)
 
 # member路徑，會先確認SIGNED-IN是否為ture(已登入)，如果是才套用"member.html"，否則回到根路徑
-# 連線到資料庫抓取所有message的data(時間倒序)，欄位包括 message.id, message.content, member.name 
+# 連線到資料庫抓取所有message的data(時間倒序)，欄位包括 message.id, message.content, message.member_id, member.name 
 @app.get("/member")
 async def member_page(request: Request):
     signed = request.session.get("SIGNED-IN")
@@ -76,7 +76,7 @@ async def member_page(request: Request):
         mydb = connect_to_database()
         cursor = mydb.cursor()
         name_message_query = """
-        SELECT message.id, message.content, member.name 
+        SELECT message.id, message.content, message.member_id, member.name 
         FROM message
         JOIN member ON message.member_id = member.id
         ORDER BY message.time DESC 
@@ -101,13 +101,13 @@ async def createMessage(request: Request, messgae_content:str = Form(None)):
     mydb.close()
     return RedirectResponse(url="/member", status_code=302)
 
-# deleteMessage路徑，先確認 將被刪除的留言的使用者 是否等於 當前登入的使用者
+# deleteMessage路徑，先確認 將被刪除的留言的使用者id 是否等於 當前登入的使用者id
 # 上方條件成立才連線到資料庫，透過message_id刪除對應留言，並導向member路徑
 @app.post("/deleteMessage")
 async def deleteMessage(request: Request):
     data = await request.json()
-    member_name = data.get("member_name")
-    if member_name == request.session["NAME"]:
+    member_id = int(data.get("member_id"))
+    if member_id == request.session["ID"]:
         message_id = data.get("message_id")
         mydb = connect_to_database()
         cursor = mydb.cursor()
@@ -120,6 +120,7 @@ async def deleteMessage(request: Request):
         cursor.close()
         mydb.close()
         return RedirectResponse(url="/member", status_code=302)
+
     
 # error路徑，套用 "error.html" 
 @app.get("/error")

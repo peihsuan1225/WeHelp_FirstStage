@@ -41,20 +41,20 @@
             <div style="margin: 10px;"><input type="submit" value="送出"></div>
         </form>
         <hr style="width: 300px;margin: 30px auto;">
-        <!-- 過往留言紀錄 (result = [message.id, message.content, member.name] ) -->
+        <!-- 過往留言紀錄 (result = [message.id, message.content, message.member_id, member.name] ) -->
         <div>
             <table>
                 {% for row in result %}
                 <tr>
                     <!-- 顯示neme -->
-                    <td>{{row[2]}}</td>
+                    <td>{{row[3]}}</td>
                     <td>:</td>
                     <!-- 顯示message content -->
                     <td>{{row[1]}}</td>
                     <td>
-                        <!-- 如果是當前使用者的留言會出現刪除按鈕 -->
-                        {% if row[2] == request.session.NAME %}
-                        <!-- 點擊按鈕回傳 message.id, member.name -->
+                        <!-- 如果是當前使用者的留言會出現刪除按鈕(member_id辨識) -->
+                        {% if row[2] == request.session.ID %}
+                        <!-- 點擊按鈕回傳 message.id, message.member_id -->
                         <button onclick="deleteMessage('{{row[0]}}','{{row[2]}}')">x</button>
                         {% endif %}
                     </td>
@@ -75,15 +75,15 @@
                     emptyEvent.preventDefault();
                 }
             })
-            // 點擊刪除按鈕會先跳出確認框，若點擊確認就對deleteMessage網址發出請求，並提交message.id, member.name
-            function deleteMessage(message_id,member_name){
+            // 點擊刪除按鈕會先跳出確認框，若點擊確認就對deleteMessage網址發出請求，並提交message.id, message.member_id
+            function deleteMessage(message_id, member_id){
                 if(confirm("確定要刪除留言嗎?")){
                     fetch("http://127.0.0.1:8000/deleteMessage",{
                         method:"POST",
                         headers:{
                             "Content-Type":"application/json"
                         },
-                        body:JSON.stringify({message_id:message_id,member_name:member_name})
+                        body:JSON.stringify({message_id:message_id,member_id:member_id})
                     })
                     .then(response => {
                         if (response.redirected) {
