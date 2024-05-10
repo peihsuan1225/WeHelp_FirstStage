@@ -106,11 +106,17 @@ async def createMessage(request: Request, messgae_content:str = Form(None)):
 @app.post("/deleteMessage")
 async def deleteMessage(request: Request):
     data = await request.json()
-    member_id = int(data.get("member_id"))
-    if member_id == request.session["ID"]:
-        message_id = data.get("message_id")
-        mydb = connect_to_database()
-        cursor = mydb.cursor()
+    message_id = data.get("message_id")
+    mydb = connect_to_database()
+    cursor = mydb.cursor()
+    select_query = """
+    SELECT * FROM message
+    WHERE id = %s
+    """
+    cursor.execute(select_query,(message_id,))
+    result = cursor.fetchall()
+    
+    if result[0][1] == request.session["ID"]:
         delete_query = """
         DELETE FROM message
         WHERE id = %s
@@ -120,6 +126,9 @@ async def deleteMessage(request: Request):
         cursor.close()
         mydb.close()
         return RedirectResponse(url="/member", status_code=302)
+    
+    cursor.close()
+    mydb.close()
 
     
 # error路徑，套用 "error.html" 
