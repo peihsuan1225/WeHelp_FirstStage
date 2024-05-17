@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>member</title>
+        <style>
+            body{
+                margin: 0;
+                font-family: "Noto Sans TC", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
+                font-size: 20px;
+            }
+            .head{
+                background-color: midnightblue;
+                color: azure;
+                font-size: 30px;
+                text-align: center;
+                padding: 20px;
+                margin-bottom: 20px;
+                font-weight: bold;
+            }
+            div{
+                text-align: center;
+            }
+            input{
+                margin-left: 10px;
+            }
+            table{
+                margin: 0 auto 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="head">歡迎光臨，這是會員頁</div>
+        <div style="font-weight: bold;"><span id="member_name">{{ request.session.NAME }}</span>，歡迎登入系統</div>
+        <div style="margin: 10px;"><a href="http://127.0.0.1:8000/signout" onclick="signout()">登出系統</a></div>
+        <hr style="width: 300px;margin: 30px auto;">
+
+        <div style="font-weight: bold;">查詢會員姓名</div>
+        <div style="margin: 10px;"><input id="input_username" placeholder="輸入會員帳號" /><button id="search_btn" onclick="searchName('input_username')" style="margin-left: 10px;" >查詢</button><div>
+        <div id="search_result" style="margin: 10px;"></div>
+        <hr style="width: 300px;margin: 30px auto;">
+
+        <div style="font-weight: bold;">更新我的姓名</div>
+        <div style="margin: 10px;"><input id="newName" placeholder="輸入新的姓名" /><button id="reName_btn" onclick="reName('newName')" style="margin-left: 10px;" >更新</button><div>
+        <div id="reName_result" style="margin: 10px;"></div>
+        <hr style="width: 300px;margin: 30px auto;">
+
+        <div style="font-weight: bold;">快來留言吧</div>
+        <form id="messgaeForm" action="/CreateMessage" method="post">
+            <div style="margin: 10px;">內容<input name="messgae_content" id="messgae_content" /></div>
+            <div style="margin: 10px;"><input type="submit" value="送出" /></div>
+        </form>
+        <hr style="width: 300px;margin: 30px auto;">
+
+        <!-- 過往留言紀錄 (result = [message.id, message.content, message.member_id, member.name] ) -->
+        <div>
+            <table>
+                {% for row in result %}
+                <tr>
+                    <!-- 顯示neme -->
+                    <td>{{row[3]}}</td>
+                    <td>:</td>
+                    <!-- 顯示message content -->
+                    <td>{{row[1]}}</td>
+                    <td>
+                        <!-- 如果是當前使用者的留言會出現刪除按鈕(member_id辨識) -->
+                        {% if row[2] == request.session.ID %}
+                        <!-- 點擊按鈕回傳 message.id, message.member_id -->
+                        <button onclick="deleteMessage('{{row[0]}}','{{row[2]}}')">x</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <script>
+            // 用fetch對signout網址發出請求
+            function signout(){
+                fetch("http://127.0.0.1:8000/signout")
+            }
+            // 點擊查詢按鈕先檢查內容是否為空，再對/api/member網址發出請求，並顯示對應結果
+            function searchName(){
+                let searchName_content = document.querySelector("#input_username").value.trim();
+                if (searchName_content === ""){
+                    alert("查詢內容不能為空");
+                }
+                else{
+                    let apiUrl = "http://127.0.0.1:8000/api/member?username=" + searchName_content;
+                    fetch(apiUrl)
+                        .then(response => response.json())
+                        .then(data =>{
+                            let resultDiv = document.querySelector("#search_result");
+                            if (data.data !== null){
+                                let memberData = data.data;
+                                resultDiv.innerText = memberData.name + "(" + memberData.username + ")";
+                            }
+                            else{
+                                resultDiv.innerText = "沒有資料";
+                            }
+                        })
+                }
+            }
+            // 點擊更新按鈕先檢查內容是否為空，再對/api/member網址發出請求，並顯示對應結果
+            function reName(){
+                let newName = document.querySelector("#newName").value.trim();
+                if (newName === ""){
+                    alert("新的姓名不能為空");
+                }
+                else{
+                    fetch("http://127.0.0.1:8000/api/member",{
+                        method:"PATCH",
+                        headers:{
+                            "Content-Type":"application/json"
+                        },
+                        body:JSON.stringify({newName:newName})
+                    })
+                    .then(response => response.json())
+                    .then(reNameResponse =>{
+                        let reName_resultDiv = document.querySelector("#reName_result");
+                        if (reNameResponse.ok){
+                            reName_resultDiv.innerText = "更新成功";
+                            document.querySelector("#member_name").innerText = newName;
+                        }
+                        else{
+                        reName_resultDiv.innerText = "更新失敗";
+                        }
+                    });
+                }
+            }
+
+            // 檢查留言輸入框是否無值，無值就跳出警告訊息、阻止submit
+            document.querySelector("#messgaeForm").addEventListener("submit",function(emptyEvent){
+                let messgae_content = document.querySelector("#messgae_content").value.trim();
+                if (messgae_content === ""){
+                    alert("留言內容不能為空");
+                    emptyEvent.preventDefault();
+                }
+            })
+            // 點擊刪除按鈕會先跳出確認框，若點擊確認就對deleteMessage網址發出請求，並提交message.id, message.member_id
+            function deleteMessage(message_id, member_id){
+                if(confirm("確定要刪除留言嗎?")){
+                    fetch("http://127.0.0.1:8000/deleteMessage",{
+                        method:"POST",
+                        headers:{
+                            "Content-Type":"application/json"
+                        },
+                        body:JSON.stringify({message_id:message_id,member_id:member_id})
+                    })
+                    .then(response => {
+                        if (response.redirected) {
+                        window.location.href = response.url;
+                        }
+                    })
+                }
+            }
+            
+        </script>
+    </body>
+</html>
