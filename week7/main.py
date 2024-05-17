@@ -87,51 +87,61 @@ async def member_page(request: Request):
         return templates.TemplateResponse("member.html", {"request": request,"result": result})
     else:
         return RedirectResponse(url="/")
-    
+
+# Member QUERY路徑，先確認是否有登入，查詢輸入的username對應的name，回傳結果    
 @app.get("/api/member")
 async def member_query(request:Request):
-    username = request.query_params.get("username")
-    mydb = connect_to_database()
-    cursor = mydb.cursor()
-    member_name_query = "SELECT * FROM member WHERE username = %s COLLATE utf8mb4_bin"
-    cursor.execute(member_name_query, (username,))
-    nameSearch_result = cursor.fetchall()
-    cursor.close()
-    mydb.close()
+    signed = request.session.get("SIGNED-IN")
+    if signed is True:
+        username = request.query_params.get("username")
+        mydb = connect_to_database()
+        cursor = mydb.cursor()
+        member_name_query = "SELECT * FROM member WHERE username = %s COLLATE utf8mb4_bin"
+        cursor.execute(member_name_query, (username,))
+        nameSearch_result = cursor.fetchall()
+        cursor.close()
+        mydb.close()
 
-    if nameSearch_result:
-        member_data ={
-            "id":nameSearch_result[0][0],
-            "name":nameSearch_result[0][1],
-            "username":nameSearch_result[0][2]
-        }
-        return {"data":member_data}
+        if nameSearch_result:
+            member_data ={
+                "id":nameSearch_result[0][0],
+                "name":nameSearch_result[0][1],
+                "username":nameSearch_result[0][2]
+            }
+            return {"data":member_data}
+        else:
+            return{"data":None}
     else:
         return{"data":None}
-    
+
+# Update Name 路徑，先確認是否有登入，更新當前使用的name，回傳結果
 @app.patch("/api/member")
 async def rename(request:Request):
-    data = await request.json()
-    newname = data.get("newName")
-    mydb = connect_to_database()
-    cursor = mydb.cursor()
-    rename_query = """
-    UPDATE member
-    SET name = %s
-    WHERE ID = %s;
-    """
-    cursor.execute(rename_query,(newname, request.session["ID"]))
-    newname_query = "SELECT name FROM member WHERE ID = %s"
-    cursor.execute(newname_query,(request.session["ID"],))
-    member_name = cursor.fetchone()
-    mydb.commit()
-    cursor.close()
-    mydb.close()
-    
-    if member_name[0] == newname:
-        session = request.session
-        session["NAME"] = newname
-        return{"ok":True}
+    signed = request.session.get("SIGNED-IN")
+    if signed is True:
+        data = await request.json()
+        newname = data.get("newName")
+        mydb = connect_to_database()
+        cursor = mydb.cursor()
+        rename_query = """
+        UPDATE member
+        SET name = %s
+        WHERE ID = %s;
+        """
+        cursor.execute(rename_query,(newname, request.session["ID"]))
+        newname_query = "SELECT name FROM member WHERE ID = %s"
+        cursor.execute(newname_query,(request.session["ID"],))
+        member_name = cursor.fetchone()
+        mydb.commit()
+        cursor.close()
+        mydb.close()
+        
+        if member_name[0] == newname:
+            session = request.session
+            session["NAME"] = newname
+            return{"ok":True}
+        else:
+            return{"error":True}
     else:
         return{"error":True}
     
